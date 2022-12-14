@@ -1,73 +1,106 @@
-# Turborepo starter
+# 一个可以在任何框架都能使用的画布功能
 
-This is an official pnpm starter turborepo.
+## 概述
 
-## What's inside?
+在[https://zhuanlan.zhihu.com/p/589768794](《如何写视图无关的前端代码》) 一文中，我提到实现业务逻辑时将实现与视图严格分离，也许仍有许多人觉得只有和后端接口有关的「业务逻辑」才能这样做，但实际上所有代码都是可以的。
 
-This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes the following packages/apps:
+本项目就是如此，一个和页面 `DOM` 操作息息相关的功能，也可以做到完全的分离，使其适用于任何框架，甚至是任何端，只要能运行 `JavaScript`。
 
-### Apps and Packages
+> 本项目仅做演示，表达的还是业务与视图严格分离的可行性。具体的实现还有许多可优化的方向。抛砖引玉，给大家另一个写代码的思路与方向。
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `ui`: a stub React component library shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+## 目前实现的功能
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+1. 新增文本、图片
+2. 修改文本、图片内容（目前仅 React 实现了视图）
+3. 移动、缩放、旋转内容
+4. 参考线吸附
+5. 框选
+6. 撤销与重做（仅支持新增、删除、移动缩放等操作）
+7. 内容层级调整
 
-### Utilities
+## 各端核心代码
 
-This turborepo has some additional tools already setup for you:
+### React
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+```react
+const store = new CanvasDomain();
+const Page = () => {
+  const [values, setValues] = useState(store.values);
+  const [selectedContentIds, setSelectedContentIds] = useState(
+    store.selectedThingIds
+  );
+  const [rangeSelection, setRangeSelection] = useState(store.rangeSelection);
+  const [lines, setLines] = useState(store.lines);
+  const [history, setHistory] = useState(store.history.values);
 
-### Build
+  useEffect(() => {
+    // 监听物体数量、位置、尺寸等状态改变
+    store.addListener((nextValues) => {
+      // console.log("[PAGE]DesignPage - on store values change", nextValues);
+      setValues(nextValues);
+    });
+    // 监听选中的内容
+    store.addSelectedListener((nextSelectedContent) => {
+      setSelectedContentIds(nextSelectedContent);
+    });
+    // 监听选框
+    store.addRangeSelectionListener((nextRangeSelection) => {
+      setRangeSelection(nextRangeSelection);
+    });
+    // 监听辅助线
+    store.addLinesListener((nextLines) => {
+      setLines(nextLines);
+    });
+  }, []);
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm run build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm run dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-pnpm dlx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-pnpm dlx turbo link
+  return (
+    <div></div>
+  );
+}
 ```
 
-## Useful Links
+### Vue
 
-Learn more about the power of Turborepo:
+```
+const store = new CanvasDomain();
+export default {
+  data() {
+    return {
+      store,
+      things: store.values.things,
+      selectedIds: store.selectedThingIds,
+      range: store.rangeSelection,
+      lines: store.lines,
+      CanvasThingTypes,
+      LineDirectionTypes,
+    };
+  },
+  mounted() {
+    // @ts-ignore
+    this.unregisterHotkeys = registerHotkeys(store);
+    store.addListener((nextValues) => {
+      console.log("[PAGE]design - listener", nextValues);
+      this.$data.things = nextValues.things;
+      this.$forceUpdate();
+    });
+    store.addSelectedListener((nextSelectedIds) => {
+      // console.log("[PAGE]design - listener", nextValues);
+      this.$data.selectedIds = nextSelectedIds;
+    });
+    store.addRangeSelectionListener((nextRange) => {
+      // console.log("[PAGE]design - listener", nextRange);
+      this.$data.range = { ...nextRange };
+      this.$forceUpdate();
+    });
+    store.addLinesListener((nextLines) => {
+      // console.log("[PAGE]design - listen lines", nextLines);
+      this.$data.lines = nextLines;
+      this.$forceUpdate();
+    });
+  },
+}
+```
 
-- [Pipelines](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+### 原生 JavaScript
+
+原生部分由于自己实现节点对比等逻辑代码量比较多，这里就不贴了，但核心逻辑是一样的，监听来自业务层的状态变化，决定要如何渲染视图。

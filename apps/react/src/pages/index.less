@@ -1,0 +1,149 @@
+.page {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  &__extra {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    border-left: 1px solid #eee;
+    background-color: #fff;
+  }
+}
+
+.logo--react {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.settings {
+  height: 100%;
+}
+
+.tools {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 10px;
+  font-size: 13px;
+  user-select: none;
+}
+.canvas {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  overflow: hidden;
+  background-color: #f9f9f9;
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    pointer-events: none;
+  }
+  &__range-selection {
+    position: absolute;
+    z-index: 999;
+    border: 1px solid blue;
+    background-color: aqua;
+    opacity: 0.4;
+  }
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+}
+.btn {
+  z-index: 1;
+  position: relative;
+  margin-right: 8px;
+  color: #080808;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+  &--icon {
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+  &--disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
+
+  &__icon {
+    font-size: 24px;
+  }
+  &__input {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+.history {
+  color: #999;
+
+  &--active {
+    color: #080809;
+  }
+
+  &__card {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+  }
+  &__icon {
+    margin-right: 8px;
+    font-size: 24px;
+  }
+}
+
+.layer {
+  padding: 12px 24px;
+  margin-bottom: 8px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &--active {
+    background-color: #999;
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .left {
+    justify-content: left;
+  }
+}

@@ -1,0 +1,22 @@
+.no-scroll-bar-container {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding-bottom: 60px;
+  height: 100%;
+  box-sizing: border-box;
+
+  &__inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

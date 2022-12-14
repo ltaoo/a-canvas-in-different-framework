@@ -1,0 +1,78 @@
+.rect {
+  position: absolute;
+  border: 1px solid transparent;
+
+  &.bordered {
+    border: 1px solid #eb5648;
+  }
+
+  .square {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border: 1px solid #eb5648;
+    border-radius: 1px;
+  }
+  .resizable-handler {
+    position: absolute;
+    cursor: pointer;
+    z-index: 102;
+    // left-top
+    &.tl {
+      left: -8px;
+      top: -8px;
+    }
+    // right-top
+    &.tr {
+      right: -8px;
+      top: -8px;
+    }
+    // bottom-left
+    &.bl {
+      left: -8px;
+      bottom: -8px;
+    }
+    // bottom-right
+    &.br {
+      right: -8px;
+      bottom: -8px;
+    }
+    // top
+    &.n {
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    // bottom
+    &.s {
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    // right
+    &.e {
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    // left
+    &.w {
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .rotate {
+    position: absolute;
+    left: 50%;
+    top: -32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    transform: translateX(-50%);
+  }
+}

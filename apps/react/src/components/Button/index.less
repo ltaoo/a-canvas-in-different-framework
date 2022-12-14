@@ -1,0 +1,44 @@
+.btns {
+  display: flex;
+  align-items: center;
+}
+.btn {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  color: #080808;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
+  &--icon {
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+  &--disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
+
+  &__icon {
+    font-size: 24px;
+  }
+  &__input {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}

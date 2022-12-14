@@ -1,0 +1,33 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    height: 48px;
+  }
+  &__content {
+    display: flex;
+    flex: 1;
+  }
+}
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #f8f8f8;
+  border: 1px solid #f8f8f8;
+  cursor: pointer;
+
+  &--active {
+    border: 1px solid #eee;
+    border-radius: 4px 4px 0 0;
+    background-color: #fff;
+  }
+
+  &__content {
+    position: relative;
+    width: 100%;
+  }
+}

@@ -429,7 +429,7 @@ const DesignPage = () => {
                 content: (
                   <ScrollView distance={100}>
                     <div className="setting history">
-                      {[...history.stacks].reverse().map((stack, index) => {
+                      {[...history.stacks].map((stack, index) => {
                         const { type } = stack;
                         const id = index;
                         if (type === CanvasOperationType.AddThing) {

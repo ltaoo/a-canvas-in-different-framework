@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { navigateToUrl } from "rich";
+import { PATHNAME_BASE } from "./constants";
 
 function App() {
   const [mainVisible, setMainVisible] = useState(true);
@@ -9,13 +10,13 @@ function App() {
     navigateToUrl(url);
   };
   const showMainPage = useCallback(() => {
-    navigateToUrl("/");
+    navigateToUrl(`${PATHNAME_BASE}/`);
     setMainVisible(true);
   }, []);
 
   useEffect(() => {
     const { pathname } = window.location;
-    if (pathname === "/") {
+    if (pathname === `${PATHNAME_BASE}/`) {
       return;
     }
     goto(pathname);
@@ -37,7 +38,7 @@ function App() {
           <div
             className="button"
             onClick={() => {
-              goto("/react");
+              goto(`${PATHNAME_BASE}/react`);
             }}
           >
             react example
@@ -45,7 +46,7 @@ function App() {
           <div
             className="button"
             onClick={() => {
-              goto("/vue");
+              goto(`${PATHNAME_BASE}/vue`);
             }}
           >
             vue example
@@ -53,7 +54,7 @@ function App() {
           <div
             className="button"
             onClick={() => {
-              goto("/vanilla");
+              goto(`${PATHNAME_BASE}/vanilla`);
             }}
           >
             vanilla example

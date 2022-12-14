@@ -2,14 +2,23 @@ const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 
+const PATHNAME_BASE = "/a-canvas-in-different-framework";
 const apps = [
   {
     name: "vue",
     entry: "./apps/vue",
-    activeRule: "/vue",
+    activeRule: `${PATHNAME_BASE}/vue`,
   },
-  { name: "react", entry: "./apps/react", activeRule: "/react" },
-  { name: "vanilla", entry: "./apps/vanilla", activeRule: "/vanilla" },
+  {
+    name: "react",
+    entry: "./apps/react",
+    activeRule: `${PATHNAME_BASE}/react`,
+  },
+  {
+    name: "vanilla",
+    entry: "./apps/vanilla",
+    activeRule: `${PATHNAME_BASE}/vanilla`,
+  },
 ];
 const ASSETS_DIR = "dist/assets";
 
@@ -56,7 +65,13 @@ function createAppPayload(filepath, content) {
       copy.push({
         from: asset.path,
         to: path.resolve(mainProjectAssetsDir, name, asset.name),
-        relative: path.join("/a-canvas-in-different-framework", "/assets", "/", name, asset.name),
+        relative: path.join(
+          "/a-canvas-in-different-framework",
+          "/assets",
+          "/",
+          name,
+          asset.name
+        ),
       });
     }
     targetFilepaths.push(...copy);

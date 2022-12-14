@@ -56,7 +56,7 @@ function createAppPayload(filepath, content) {
       copy.push({
         from: asset.path,
         to: path.resolve(mainProjectAssetsDir, name, asset.name),
-        relative: path.join("/", "assets", "/", name, asset.name),
+        relative: path.join("/a-canvas-in-different-framework", "/assets", "/", name, asset.name),
       });
     }
     targetFilepaths.push(...copy);
